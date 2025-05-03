@@ -1,0 +1,132 @@
+/* 点击波纹效果 - 优化波纹动画性能 */
+.ripple {
+  position: relative;
+  overflow: hidden;
+  transform: translate3d(0, 0, 0); /* 强制GPU加速 */
+}
+
+.ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.25);
+  transform: scale(0);
+  animation: ripple 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; /* 使用更自然的缓动函数 */
+  pointer-events: none;
+  will-change: transform, opacity; /* 告知浏览器这些属性会变化，优化性能 */
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* 点击缩放效果 */
+.click-scale {
+  transition: transform 0.15s ease;
+}
+
+.click-scale:active {
+  transform: scale(0.95);
+}
+
+/* 点击高亮效果已移除 */
+.click-highlight {
+  /* 移除高亮过渡效果 */
+}
+
+.click-highlight:active {
+  /* 移除点击高亮效果 */
+}
+
+/* 按钮点击效果组合 */
+.button-click-effect {
+  transition: transform 0.15s ease;
+}
+
+.button-click-effect:active {
+  transform: scale(0.95);
+}
+
+/* 文件夹展开/折叠动画 - 针对展开/折叠内容优化性能 */
+.folder-content {
+  will-change: max-height, opacity; /* 优化展开/折叠动画性能 */
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: 
+    max-height 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1); /* 使用更快的动画时间和更自然的缓动函数 */
+}
+
+.bookmark-folder.expanded > .folder-content {
+  max-height: 2000px;
+  opacity: 1;
+}
+
+/* 新项目添加动画 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-2px); } /* 减小移动距离，提高性能 */
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 文件夹图标旋转 - 提高旋转动画流畅度 */
+.bookmark-folder .folder-header .expand-icon {
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1); /* 更流畅的缓动曲线 */
+  will-change: transform; /* 提示浏览器优化旋转动画 */
+}
+
+/* 对话框弹出效果 - 优化对话框弹出动画 */
+.edit-dialog {
+  animation: dialogPop 0.15s cubic-bezier(0.4, 0, 0.2, 1); /* 更快的动画时间 */
+  will-change: transform, opacity; /* 提示浏览器优化 */
+}
+
+@keyframes dialogPop {
+  0% { transform: scale(0.9); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* 书签项淡入 - 优化性能 */
+.bookmark-item {
+  animation: fadeIn 0.15s ease-out forwards;
+  will-change: opacity, transform; /* 提示浏览器优化 */
+}
+
+/* 顶层书签淡入动画 - 优化性能，减少延迟 */
+#bookmarkContainer > .bookmark-folder {
+  opacity: 0;
+  animation: itemFadeIn 0.15s ease-out forwards;
+  will-change: opacity; /* 提示浏览器优化 */
+}
+
+#bookmarkContainer > .bookmark-folder:nth-child(1) {
+  animation-delay: 0.01s; /* 减少延迟 */
+}
+
+#bookmarkContainer > .bookmark-folder:nth-child(2) {
+  animation-delay: 0.03s; /* 减少延迟 */
+}
+
+@keyframes itemFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 删除按钮警告效果 - 优化悬停反馈 */
+.delete-confirm-button {
+  transition: background-color 0.15s ease, transform 0.15s ease;
+  will-change: background-color, transform; /* 提示浏览器优化 */
+}
+
+.delete-confirm-button:hover {
+  background-color: #e53935 !important;
+  transform: scale(1.02); /* 降低缩放比例，更微妙的视觉反馈 */
+}
+
+/* 容器渐进出现 */
+@keyframes containerFadeIn {
+  from { opacity: 0.95; } /* 从更接近完全不透明开始，减少闪烁感 */
+  to { opacity: 1; }
+} 

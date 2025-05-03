@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>书签管理器</title>
+  <style>
+    /* 关键渲染路径CSS，内联以减少初始加载闪烁 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    body {
+      width: 300px;
+      max-height: 500px;
+      background-color: #202124;
+      color: #e8eaed;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      opacity: 0;
+      animation: bodyFadeIn 0.15s ease-in-out forwards;
+    }
+    @keyframes bodyFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .content-wrapper {
+      height: auto;
+      max-height: 500px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      width: 100%;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .content-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+    .bookmark-container {
+      padding: 4px 0;
+    }
+    .loading-placeholder {
+      margin: 0;
+      padding: 20px 0;
+      text-align: center;
+      color: #9aa0a6;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .loading-spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+      border: 2px solid #9aa0a6;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <div class="content-wrapper">
+    <div class="bookmark-container" id="bookmarkContainer">
+      <!-- 预置加载占位内容，减少闪烁 -->
+      <div class="loading-placeholder">
+        <span class="loading-spinner"></span>
+        加载中...
+      </div>
+    </div>
+  </div>
+
+  <!-- 延迟加载JS优化性能 -->
+  <script src="js/popup.js"></script>
+</body>
+</html>
